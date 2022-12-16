@@ -1,6 +1,6 @@
 function solution(babbling) {
   let answer = 0;
-  let answerString = ["aya", "ye", "woo", "ma"];
+  const answerString = ["aya", "ye", "woo", "ma"];
 
   babbling.forEach((str) => {
     let totalList = str.toString();
