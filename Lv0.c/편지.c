@@ -8,6 +8,5 @@ int main() {
     int answer = 0;
     printf("%s", message);
     answer = strlen(message) * 2;
-    printf("%d", answer);
     return answer;
 }
