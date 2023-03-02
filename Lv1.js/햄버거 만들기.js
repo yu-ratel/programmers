@@ -15,7 +15,3 @@ function solution(ingredient) {
 let ingredient = [1, 1, 2, 1, 2, 3, 1, 3, 1, 2, 3, 1];
 
 console.log(solution(ingredient));
-// result = 2;
-// 1 빵 
-// 2 야채
-// 3 고기 
