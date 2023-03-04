@@ -10,18 +10,18 @@ function solution(keymap, targets) {
             }
             if (Math.max(...list) === -1) return answerList.push(-1);
             else {
-                if (list.includes(-1)) answerList.push(Math.max(...list) + 1);
-                else answerList.push(Math.min(...list) + 1);
+                let itemList = [];
+                list.map((el) => el != -1 ? itemList.push(el) : null);
+                answerList.push(Math.min(...itemList) + 1);
             }
         })
-        console.log(answerList)
-        answer.push(answerList.reduce((acc, cur) => acc + (cur === -1 ? cur : cur + 1), 0));
+        if (answerList.includes(-1)) answer.push(-1);
+        else answer.push(answerList.reduce((acc, cur) => acc + cur , 0));
     })
-    
     return answer;
 }
 
-let keymap = ["AGZ", "BSSS"];
-let targets = ["V", "VC"];
+let keymap = 	["ABACD", "BCEFD"];
+let targets = ["XD", "AB", "SDD"];
 
 console.log(solution(keymap, targets));
