@@ -15,4 +15,4 @@ function solution(n) {
 let n = 5000;
 console.log(solution(n));
 
-//구현문제 완탐해야할듯? 내일하자.
+//생각의 전환 끝에서부터 2씩 나눠서 순간이동
