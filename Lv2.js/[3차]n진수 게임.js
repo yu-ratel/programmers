@@ -21,3 +21,5 @@ let m = 2;
 let p = 1;
 
 console.log(solution(n, t, m, p));
+
+//16진수가 끝나면 1~16 까지 한다음 10부터 다시 시작한다.
