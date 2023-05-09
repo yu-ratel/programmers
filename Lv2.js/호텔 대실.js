@@ -8,22 +8,24 @@ function solution(book_time) {
   };
 
   book_time.sort();
+  answer.push(book_time[0]);
 
-  book_time.map((el) => {
-    if (answer.length === 0) return answer.push(el);
+  for (let i = 1; i < book_time.length; i++) {
+    let inTime = timeSet(book_time[i][0]);
 
-    let inTime = timeSet(el[0]);
-
+    answer.push(book_time[i]);
     for (let j = 0; j < answer.length; j++) {
-      let outTime = timeSet(answer[j][answer[j].length - 1]) + 10;
-
-      if (inTime >= outTime) return answer[j].push(...el);
-
-      if (j === answer.length - 1) return answer.push(el);
+      if (answer[j] != "pop") {
+        let outTime = timeSet(answer[j][1]) + 10;
+        if (inTime >= outTime) {
+          answer[j] = "pop";
+          break;
+        }
+      }
     }
-  });
+  }
 
-  return answer.length;
+  return answer.filter((el) => el != "pop").length;
 }
 
 let book_time = [
@@ -32,6 +34,7 @@ let book_time = [
   ["14:20", "15:20"],
   ["14:10", "19:20"],
   ["18:20", "21:20"],
+  ["21:30", "22:10"],
 ];
 console.log(solution(book_time));
 
