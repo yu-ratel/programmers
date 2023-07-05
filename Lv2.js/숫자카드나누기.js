@@ -1,4 +1,5 @@
 function solution(arrayA, arrayB) {
+  // 유클리드 호제법 (어떤 자연수 a, b가 있을 때 (a > b), 두 수의 최대공약수는 a를 b로 나눈 나머지와 b의 최대공약수와 같다.)
   const gcd = (a, b) => {
     if (b === 0) return a;
     return gcd(b, a % b);
