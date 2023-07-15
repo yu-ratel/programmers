@@ -2,6 +2,7 @@ function solution(n, k) {
   const answer = [];
   const list = new Array(n).fill(0).map((el, i) => (el = i + 1));
   let max = list.reduce((a, c) => a * c, 1);
+  // max가 이렇게 되는 이유
 
   while (answer.length < n) {
     max = max / list.length;
