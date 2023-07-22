@@ -1,45 +1,50 @@
-function solution(relation) {
-  const getCombination = (arr, num) => {
-    const results = [];
-    if (num === 1) return arr.map((v) => [v]);
-
-    arr.forEach((fixed, index, origin) => {
-      const rest = origin.slice(index + 1);
-      const combinations = getCombination(rest, num - 1);
-      const attached = combinations.map((v) => [fixed, ...v]);
-      results.push(...attached);
-    });
-
-    return results;
-  };
-  let answer = [];
-  let list = [];
-
-  for (let i = 0; i < relation[0].length; i++) list.push([]);
-
-  relation.map((tupleList) => {
-    for (let i = 0; i < tupleList.length; i++) {
-      list[i].push(tupleList[i]);
-    }
+function getCombination(arr, selectNum) {
+  let result = [];
+  if (selectNum === 1) {
+    return arr.map((a) => [a]);
+  }
+  arr.forEach((fix, i, origin) => {
+    const rest = origin.slice(i + 1);
+    const combi = getCombination(rest, selectNum - 1);
+    const attach = combi.map((c) => [fix, ...c]);
+    result.push(...attach);
   });
+  return result;
+}
+
+function solution(relation) {
+  let list = Array.from(Array(relation[0].length), (_, i) => i);
+  let combi = [];
 
   for (let i = 0; i < list.length; i++) {
-    let target = list[i];
-    for (let j = i + 1; j < list.length; j++) {
-      if (new Set(target).size === target.length) {
-        answer.push(target);
-        break;
-      }
-      target = target.map((el, idx) => {
-        return (el += " " + list[j][idx]);
-      });
-      if (j === list.length - 1) {
-        if (new Set(target).size === target.length) answer.push(target);
-      }
-    }
+    combi.push(...getCombination(list, i + 1));
   }
-  console.log(answer);
-  return new Set(answer).size;
+
+  let only = [];
+
+  combi.map((numList) => {
+    let set = new Set();
+    relation.map((tuple) => {
+      set.add(numList.map((num) => tuple[num]).join(","));
+    });
+    if (set.size === relation.length) only.push(numList);
+  });
+
+  let min = [];
+
+  while (only.length) {
+    min.push(only[0]);
+
+    only = only.reduce((acc, cur) => {
+      let overlap = only[0].every((el) => cur.includes(el));
+      // 중복된것이 있다면 true 없다면 false;
+      if (!overlap) acc.push(cur);
+      // 중복된 것이 없다면 acc(결과)로 only 갱신
+      return acc;
+    }, []);
+  }
+
+  return min.length;
 }
 
 let relation = [
@@ -50,4 +55,6 @@ let relation = [
 ];
 console.log(solution(relation));
 
-// 조합을 사용해서 모든 조합 만들어봐야 풀릴듯..?
+// 조합을 사용해서 모든 경우의 수를 구하고
+// 유일성을 체크한 뒤
+// 최소성 체크 (every, reduce 등 고차함수를 더욱 공부해야겠다. 이해하는데 한참걸림..)
