@@ -3,9 +3,9 @@ function solution(my_string, queries) {
 
   queries.forEach((arr) => {
     const [start, end] = arr;
-    const reverseStr = answer.slice(start, end + 1).reverse().join('');
+    const reverseStr = answer.slice(start, end + 1).reverse();
 
-    answer.splice(start, end - start + 1, ...reverseStr.split(''));
+    answer.splice(start, end - start + 1, ...reverseStr);
   })
 
   return answer.join('');
