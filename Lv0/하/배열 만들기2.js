@@ -1,7 +1,7 @@
 function solution(l, r) {
   const answer = [];
 
-  for (let i = l; i <= r; i += 5 ) {
+  for (let i = l; i <= r; i ++ ) {
     let arr = (i + '').split('');
 
     if(arr.every((num) => num === '0' || num === '5')) {
