@@ -9,44 +9,46 @@ function solution(genres, plays) {
         ? playCountMap.get(genre) + plays[index]
         : plays[index]
     );
+    // 수정한이유 => 재생횟수를 마지막에 문자열로 붙여 제대로 된 정렬이 이루어지지 않음
+    // 모든 장르의 배열을 만들어 준 후 재생횟수와 노래번호 추가
+    if (!songNumberMap.has(genre)) songNumberMap.set(genre, []);
 
-    songNumberMap.set(
-      genre,
-      songNumberMap.has(genre)
-        ? songNumberMap
-            .get(genre)
-            .concat([plays[index] + `${index}`])
-            .sort((a, b) => {
-              const [na, nb] = [
-                a.slice(0, a.length - 1),
-                b.slice(0, b.length - 1),
-              ];
-              return nb - na;
-            })
-        : [plays[index] + `${index}`]
-    );
+    songNumberMap.get(genre).push([plays[index], index]);
   });
 
+  // 장르별로 재생횟수가 같다면 노래번호, 재생횟수 순으로 내림차순
+  songNumberMap.forEach((songNumber) => {
+    songNumber.sort((a, b) => {
+      const [cnt, num] = [0, 1];
+
+      if (a[cnt] === b[cnt]) return a[num] - b[num];
+      return b[cnt] - a[cnt];
+    });
+  });
+
+  // 장르별 재생횟수총합 내림차순
   const procedure = [...playCountMap]
     .sort((a, b) => b[1] - a[1])
     .map((el) => el[0]);
 
+  // 각 장르별 최대 2개 정답배열 추가
   const answer = [];
+  const [maxCnt, songIndex] = [2, 1];
   procedure.map((genre) => {
     if (songNumberMap.get(genre)) {
       answer.push(
-        songNumberMap
+        ...songNumberMap
           .get(genre)
-          .slice(0, 2)
-          .map((el) => Number(el.slice(-1)))
+          .slice(0, maxCnt)
+          .map((song) => song[songIndex])
       );
     }
   });
 
-  return answer.flat();
+  return answer;
 }
 
-let genres = ["classic", "pop", "classic", "classic", "pop"];
-let plays = [500, 600, 150, 800, 2500];
+let genres = ["A", "B", "A"];
+let plays = [5, 11, 2];
 
 console.log(solution(genres, plays));
