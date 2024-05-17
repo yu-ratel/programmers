@@ -2,7 +2,9 @@ function solution(genres, plays) {
   let playCountMap = new Map();
   let songNumberMap = new Map();
 
+  // 장르 순회
   genres.forEach((genre, index) => {
+    // 장르별 재생횟수 합 매핑
     playCountMap.set(
       genre,
       playCountMap.has(genre)
