@@ -1,5 +1,7 @@
+// 조합 DFS
+
 function solution(user_id, banned_id) {
-  let answer = [];
+  let answer = new Set();
 
   const check = (id, banId) => {
     if (id.length !== banId.length) return false;
@@ -14,27 +16,27 @@ function solution(user_id, banned_id) {
   const visited = [];
 
   const dfs = (idx, arr) => {
-    if (arr.length === banned_id.length) {
-      answer.push(arr.sort().join(", "));
+    if (idx === banned_id.length) {
+      // 중복되는 누적 배열 제거
+      answer.add([...arr].sort().join(" "));
       return;
     }
 
     for (let i = 0; i < user_id.length; i += 1) {
-      for (let j = idx; j < banned_id.length; j += 1) {
-        if (check(user_id[i], banned_id[j]) && !visited[i]) {
-          visited[i] = true;
-          arr.push(user_id[i]);
-          dfs(idx + 1, arr);
-          visited[i] = false;
-          arr = [];
-        }
+      // banned 하나씩 처리
+      if (check(user_id[i], banned_id[idx]) && !visited[i]) {
+        visited[i] = true;
+        arr.push(user_id[i]);
+        dfs(idx + 1, arr);
+        visited[i] = false;
+        arr.pop();
       }
     }
   };
 
   dfs(0, []);
 
-  return new Set(answer).size;
+  return answer.size;
 }
 
 let user_id = ["frodo", "fradi", "crodo", "abc123", "frodoc"];
