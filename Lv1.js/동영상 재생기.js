@@ -1,19 +1,16 @@
 function solution(video_len, pos, op_start, op_end, commands) {
-  let answer = pos;
-
   const timeNumberType = (str) => {
     const [mm, ss] = str.split(":");
 
     return Number(mm) * 60 + Number(ss);
   };
+  let answer = timeNumberType(pos);
 
-  const onEvent = (cur, event) => {
-    const curTime = timeNumberType(cur);
-    return event === "next" ? curTime + 10 : curTime - 10;
+  const onEvent = (curTime, event) => {
+    return event === "next" ? Number(curTime) + 10 : Number(curTime) - 10;
   };
 
-  const isSkip = (cur) => {
-    const curTime = timeNumberType(cur);
+  const isSkip = (curTime) => {
     const [startTime, endTime] = [
       timeNumberType(op_start),
       timeNumberType(op_end),
@@ -24,7 +21,7 @@ function solution(video_len, pos, op_start, op_end, commands) {
     return false;
   };
 
-  if (isSkip(pos)) answer = op_end;
+  if (isSkip(timeNumberType(pos))) answer = timeNumberType(op_end);
 
   for (let i = 0; i < commands.length; i += 1) {
     const max = timeNumberType(video_len);
@@ -32,11 +29,14 @@ function solution(video_len, pos, op_start, op_end, commands) {
 
     if (answer < 10) answer = 0;
     if (max - answer < 10) answer = max;
+    if (isSkip(answer)) answer = timeNumberType(op_end);
   }
+
+  if (isSkip(answer)) return op_end;
 
   return `${Math.floor(answer / 60)
     .toString()
-    .padStart(2, 0)}:${answer % 60}`;
+    .padStart(2, 0)}:${(answer % 60).toString().padStart(2, 0)}`;
 }
 
 let video_len = "10:55";
