@@ -1,12 +1,12 @@
 function solution(skill, skill_trees) {
   let answer = skill_trees.length;
 
-  skill_trees.map((el) => {
+  skill_trees.map((target) => {
     const stack = [...skill];
 
-    for (let i = 0; i < el.length; i += 1) {
-      if (!skill.includes(el)) continue;
-      if (stack.shift() !== el) {
+    for (let i = 0; i < target.length; i += 1) {
+      if (!skill.includes(target[i])) continue;
+      if (stack.shift() !== target[i]) {
         answer -= 1;
         break;
       }
